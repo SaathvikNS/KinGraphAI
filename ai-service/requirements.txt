@@ -1,0 +1,8 @@
+fastapi==0.135.3
+networkx==3.4.2
+pydantic==2.12.5
+python-dotenv==1.2.2
+RapidFuzz==3.14.3
+scikit-learn==1.7.2
+spacy==3.8.14
+uvicorn==0.42.0
