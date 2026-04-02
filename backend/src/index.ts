@@ -1,11 +1,23 @@
-import express from "express";
+import express from "express"
+import cors from "cors"
+import personRoutes from "./routes/person.routes.ts"
 
-const app = express();
+const app = express()
 
-app.get("/", (req, res) => {
-	res.send("API running");
-});
+app.use(cors())
 
-app.listen(3000, () => {
-	console.log("server running");
-});
+app.use(express.json())
+
+app.get("/",(req,res)=>{
+
+ res.send("API running")
+
+})
+
+app.use("/persons", personRoutes)
+
+app.listen(3000,()=>{
+
+ console.log("server running")
+
+})
