@@ -30,7 +30,7 @@ model Person {
   relationships_from Relationship[] @relation("fromPerson")
   relationships_to   Relationship[] @relation("toPerson")
 
-  events Event[]
+  events PersonEvent[]
 }
 
 model Relationship {
@@ -57,15 +57,31 @@ model Relationship {
 model Event {
   id String @id @default(uuid())
 
-  person_id String
-
   event_type EventType
 
   event_date DateTime?
 
   description String?
 
+  created_at DateTime @default(now())
+
+  participants PersonEvent[]
+}
+
+model PersonEvent {
+  id String @id @default(uuid())
+
+  person_id String
+  event_id  String
+
+  role String?
+
   person Person @relation(fields: [person_id], references: [id])
+
+  event Event @relation(fields: [event_id], references: [id])
+
+  @@index([person_id])
+  @@index([event_id])
 }
 
 enum Gender {
