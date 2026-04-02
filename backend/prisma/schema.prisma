@@ -11,3 +11,81 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Person {
+  id String @id @default(uuid())
+
+  full_name       String
+  normalized_name String
+
+  gender Gender @default(UNKNOWN)
+
+  birth_date DateTime?
+  death_date DateTime?
+
+  notes String?
+
+  created_at DateTime @default(now())
+
+  relationships_from Relationship[] @relation("fromPerson")
+  relationships_to   Relationship[] @relation("toPerson")
+
+  events Event[]
+}
+
+model Relationship {
+  id String @id @default(uuid())
+
+  from_person_id String
+  to_person_id   String
+
+  relation_type RelationType
+
+  confidence_score Float?
+  source           String?
+
+  created_at DateTime @default(now())
+
+  from_person Person @relation("fromPerson", fields: [from_person_id], references: [id])
+
+  to_person Person @relation("toPerson", fields: [to_person_id], references: [id])
+
+  @@index([from_person_id])
+  @@index([to_person_id])
+}
+
+model Event {
+  id String @id @default(uuid())
+
+  person_id String
+
+  event_type EventType
+
+  event_date DateTime?
+
+  description String?
+
+  person Person @relation(fields: [person_id], references: [id])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNKNOWN
+}
+
+enum RelationType {
+  PARENT
+  CHILD
+  SPOUSE
+  SIBLING
+}
+
+enum EventType {
+  BIRTH
+  DEATH
+  MARRIAGE
+  DIVORCE
+  ADOPTION
+  CUSTOM
+}
