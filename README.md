@@ -154,11 +154,25 @@ uvicorn main:app --reload
 
 ### API Endpoints
 
-- `GET /api/persons` - List all persons
-- `POST /api/persons` - Create a new person
-- `GET /api/relationships` - List relationships
-- `POST /api/relationships` - Create relationship
-- `POST /api/nlp/parse` - Parse natural language relationship input
+**Person Endpoints:**
+
+- `GET /persons` - List all persons
+- `POST /persons` - Create a new person
+- `GET /persons/:id` - Get single person
+- `PATCH /persons/:id` - Update person
+- `DELETE /persons/:id` - Delete person
+
+**Relationship Endpoints:**
+
+- `GET /relationship` - List all relationships with related persons
+- `POST /relationship` - Create relationship
+- `DELETE /relationship/:id` - Delete relationship
+
+**Event Endpoints:**
+
+- `POST /event` - Create event
+- `POST /event/:id/participants` - Add person to event
+- `GET /event/person/:id` - Get events for a person
 
 ## 🗺️ Project Roadmap
 
@@ -170,15 +184,36 @@ uvicorn main:app --reload
 
 ### Stage 1: Database Design ✅
 
-- Person, Relationship, Event tables with Prisma
-- Validation rules for relationships
-- Sample data seeding
+- ✅ Person, Relationship, Event tables with Prisma
+- ✅ PersonEvent join table for many-to-many relationships
+- ✅ Migration created and synced to database
+- ✅ Seed logic implemented
 
-### Stage 2: Core Backend API 🔄
+**What is implemented:**
 
-- Person CRUD endpoints
-- Relationship management
-- Event tracking
+- Prisma ORM configured with PostgreSQL
+- All models defined: Person, Relationship, Event, PersonEvent
+- Foreign keys and indexes created
+- Schema in sync with database
+
+### Stage 2: Core Backend API ✅
+
+- ✅ All Person CRUD endpoints (create, read, update, delete)
+- ✅ All Relationship endpoints (create, list, delete)
+- ✅ All Event endpoints (create, assign person, get events)
+- ✅ Comprehensive error handling with proper HTTP status codes
+- ✅ Input validation across all endpoints
+- ✅ Error logging for debugging
+
+**What is implemented:**
+
+- 5 Person endpoints with full CRUD
+- 3 Relationship endpoints with validation
+- 3 Event endpoints with participant management
+- Try-catch error handling in all controllers/services
+- Prisma error detection (P2025, P2002)
+- 201 status for created resources, 400/404/409/500 for errors
+- Consistent error messaging
 
 ### Stage 3: Frontend Base UI 🔄
 
