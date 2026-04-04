@@ -1,8 +1,11 @@
 import express from "express"
 import cors from "cors"
 import personRoutes from "./routes/person.routes.ts"
+import relationshipRoutes from "./routes/relationship.routes.ts"
+import eventRoutes from "./routes/event.routes.ts"
 
 const app = express()
+const PORT = 3000
 
 app.use(cors())
 
@@ -15,9 +18,11 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/persons", personRoutes)
+app.use("/relationship", relationshipRoutes)
+app.use("/event", eventRoutes)
 
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
 
- console.log("server running")
+ console.log(`Server running at port ${PORT}`)
 
 })
