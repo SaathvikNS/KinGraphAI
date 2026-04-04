@@ -1,33 +1,22 @@
 import { Router } from "express";
-import { prisma } from "../lib/prisma.ts"
+
+import * as controller from "../controllers/person.controller.ts"
 
 const router = Router()
 
 // create person
-router.post("/", async (req, res) => {
-    try {
-        const {full_name} = req.body
+router.post("/", controller.createPerson)
 
-        const normalized_name = full_name.toLowerCase()
+// fetch all person
+router.get("/", controller.getAllPersons)
 
-        const person = await prisma.person.create({
-            data:{
-                full_name,
-                normalized_name
-            }
-        })
+// fetch one person using person id
+router.get("/:id", controller.getPerson)
 
-        res.json(person)
-    } catch (e) {
-        res.status(500).json({message:"failed to create person", error: e})
-    }
-})
+// update one person using person id
+router.patch("/:id", controller.updatePerson)
 
-// get all persons
-router.get("/", async (req, res)=>{
-    const persons = await prisma.person.findMany()
-
-    res.json(persons)
-})
+// delete person using person id
+router.delete("/:id", controller.deletePerson)
 
 export default router
